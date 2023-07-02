@@ -18,5 +18,8 @@
     <ClCompile Include="StrategyPattern.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ObserverPattern.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
