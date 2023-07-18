@@ -51,7 +51,10 @@
     <ClCompile Include="ProxyPattern.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CompositePattern_MVC.cpp">
+    <ClCompile Include="Quack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MVC.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
