@@ -2,6 +2,8 @@
 
 참고중: [헤드퍼스트 디자인패턴](https://product.kyobobook.co.kr/detail/S000001810483)
 
+책의 예제를 C++로 구현.  
+
 - - -
 
 ## 패턴(Pattern)
