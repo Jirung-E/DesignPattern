@@ -11,6 +11,9 @@ trait Observee<'a> {
     fn add_observer(&mut self, observer: Self::Obs);
     fn remove_observer(&mut self, observer_id: usize);
     fn notify_observers(&self);
+    fn set_callback<F>(&mut self, callback: F)
+    where
+        F: Fn(&Self::Obs) + 'a;
 }
 
 
@@ -36,12 +39,14 @@ impl Observer for Subscriber {
 
 struct Publisher<'a> {
     observers: Vec<Rc<dyn Observer + 'a>>,
+    callbacks: Vec<Box<dyn Fn(&Rc<dyn Observer + 'a>) + 'a>>,
 }
 
 impl<'a> Publisher<'a> {
     fn new() -> Self {
         Publisher {
             observers: Vec::new(),
+            callbacks: Vec::new(),
         }
     }
 
@@ -65,9 +70,20 @@ impl<'a> Observee<'a> for Publisher<'a> {
     }
 
     fn notify_observers(&self) {
-        for observer in &self.observers {
+        for i in 0..self.observers.len() {
+            let observer = &self.observers[i];
             observer.receive_update();
+            if let Some(callback) = self.callbacks.get(i) {
+                callback(observer);
+            }
         }
+    }
+
+    fn set_callback<F>(&mut self, callback: F)
+    where
+        F: Fn(&Self::Obs) + 'a,
+    {
+        self.callbacks.push(Box::new(callback));
     }
 }
 
@@ -84,6 +100,9 @@ fn main() {
         let sub2_clone = Rc::clone(&sub2);
 
         publisher.add_observer(sub1_clone);
+        publisher.set_callback(move |obs| {
+            println!("Callback for Subscriber 1 executed.");
+        });
         publisher.add_observer(sub2_clone);
     }
     publisher.update();
